@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Display the countdown timer in an element -->
+<p id="demo"></p>
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("Jan 5, 2024 15:37:25").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def trade():
+    while True:
+        # 1. Monitor the price movement of the asset you are interested in trading.
+        price = get_current_price()
+        
+        # 2. Check for the formation of a pair of candles where one candle is green and the second candle is red.
+        if is_green_red_pair():
+            
+            # 3. Wait for the third candle to form and break the high of the green candle.
+            if is_breaking_green_candle_high():
+                
+                # 4. If the third candle breaks the high of the green candle, then buy a call option at the at-the-money price.
+                call_option = buy_call_option(get_at_the_money_price())
+                
+                # 5. Set the stop loss at the high of the red candle.
+                stop_loss = get_high_of_red_candle()
+                
+                while True:
+                    # Check if the option premium increases by 10 points
+                    if is_option_premium_increase(call_option, 10):
+                        
+                        # 6. If the option premium increases by 10 points, then shift the stop loss 5 points towards the market's direction.
+                        stop_loss = move_stop_loss_towards_market_direction(stop_loss, 5)
+                        
+                    # Check if the stop loss is hit
+                    if is_stop_loss_hit(call_option, stop_loss):
+                        break
+                    
+            # 7. If the third candle breaks the high of the red candle instead of the green candle, then buy a put option at the at-the-money price.
+            elif is_breaking_red_candle_high():
+                
+                put_option = buy_put_option(get_at_the_money_price())
+                
+                # 8. Set the stop loss at the high of the green candle.
+                stop_loss = get_high_of_green_candle()
+                
+                while True:
+                    # Check if the option premium increases by 10 points
+                    if is_option_premium_increase(put_option, 10):
+                        
+                        # 9. If the option premium increases by 10 points, then shift the stop loss 5 points towards the market's direction.
+                        stop_loss = move_stop_loss_towards_market_direction(stop_loss, 5)
+                        
+                    # Check if the stop loss is hit
+                    if is_stop_loss_hit(put_option, stop_loss):
+                        break
